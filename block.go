@@ -2,7 +2,7 @@ package blockchain
 
 import "crypto/sha256"
 import "encoding/json"
-import "encoding/hex"
+import "fmt"
 
 type blockData struct {
 	Index        int    `json:"index"`
@@ -18,13 +18,13 @@ type Block struct {
 
 func (b blockData) hashSum() string {
 	blockData, err := json.Marshal(b)
-	hashSum := sha256.New().Sum(blockData)
+	hashSum := sha256.Sum256(blockData)
 
 	if err != nil {
 		return ""
 	}
 
-	return hex.EncodeToString(hashSum)
+	return fmt.Sprintf("%x", hashSum)
 }
 
 func NewBlock(index int, data []byte, timestamp string, previousHash string) *Block {
