@@ -1,6 +1,9 @@
 package blockchain
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type BlockChain struct {
 	Blocks []Block
@@ -38,4 +41,11 @@ func (blockChain *BlockChain) PreMining(number int) *BlockChain {
 	}
 
 	return blockChain
+}
+
+func (blockChain *BlockChain) Inspect() {
+	blocks := blockChain.Blocks
+	for _, block := range blocks {
+		fmt.Printf("{%v,\n %v}\n", block.blockData.PreviousHash, block.hash)
+	}
 }
