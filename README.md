@@ -1,7 +1,16 @@
-# Resources
+# QuteBlocks, the simple and stupid blockchain network
 
-# Tools
+Learn blockchain by building one
 
+## Tools
+
+### Testing
 * goconvey
+
+### Package Manager
 * dep
 
+## Packages
+* gin
+
+## Resources
