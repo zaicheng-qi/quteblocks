@@ -9,8 +9,9 @@ func Test_blockData_hashSum(t *testing.T) {
 	type fields struct {
 		Index        int
 		Timestamp    string
-		Data         []byte
+		Data         []Transaction
 		PreviousHash string
+		Proof        int
 	}
 	tests := []struct {
 		name   string
@@ -24,20 +25,22 @@ func Test_blockData_hashSum(t *testing.T) {
 				Timestamp:    "2009-11-10 23:00:00 +0000 UTC m=+0.000000001",
 				Data:         nil,
 				PreviousHash: "",
+				Proof:        1,
 			},
-			want: "8d726f5b6e435b2d400c80a36269b4ab42694da98a468fa7bc214f958c4c5e53",
+			want: "2a7859c78a8ea33b299fb71eafd40762ba17ff01560e210f84a15f1175c302d0",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			b := &blockData{
+			b := &BlockData{
 				Index:        tt.fields.Index,
 				Timestamp:    tt.fields.Timestamp,
 				Data:         tt.fields.Data,
 				PreviousHash: tt.fields.PreviousHash,
+				Proof:        tt.fields.Proof,
 			}
 			if got := b.hashSum(); got != tt.want {
-				t.Errorf("blockData.hashSum() = %v, want %v", got, tt.want)
+				t.Errorf("BlockData.hashSum() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -46,9 +49,10 @@ func Test_blockData_hashSum(t *testing.T) {
 func TestNewBlock(t *testing.T) {
 	type args struct {
 		index        int
-		data         []byte
+		data         []Transaction
 		timestamp    string
 		previousHash string
+		proof        int
 	}
 	tests := []struct {
 		name string
@@ -62,21 +66,23 @@ func TestNewBlock(t *testing.T) {
 				timestamp:    "2009-11-10 23:00:00 +0000 UTC m=+0.000000001",
 				data:         nil,
 				previousHash: "",
+				proof:        1,
 			},
 			want: &Block{
-				blockData: &blockData{
+				BlockData: &BlockData{
 					Index:        1,
 					Timestamp:    "2009-11-10 23:00:00 +0000 UTC m=+0.000000001",
 					Data:         nil,
 					PreviousHash: "",
+					Proof:        1,
 				},
-				hash: "8d726f5b6e435b2d400c80a36269b4ab42694da98a468fa7bc214f958c4c5e53",
+				hash: "2a7859c78a8ea33b299fb71eafd40762ba17ff01560e210f84a15f1175c302d0",
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewBlock(tt.args.index, tt.args.data, tt.args.timestamp, tt.args.previousHash); !reflect.DeepEqual(got, tt.want) {
+			if got := NewBlock(tt.args.index, tt.args.data, tt.args.timestamp, tt.args.previousHash, tt.args.proof); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NewBlock() = %v, want %v", got, tt.want)
 			}
 		})

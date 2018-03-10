@@ -10,7 +10,7 @@ type BlockChain struct {
 }
 
 func createGenesisBlock(timestamp string) *Block {
-	return NewBlock(0, nil, timestamp, "")
+	return NewBlock(0, nil, timestamp, "0000000000000000000000000000000000000000000000000000000000000000", 0)
 }
 
 func NewBlockChain(timestamp string) *BlockChain {
@@ -20,7 +20,7 @@ func NewBlockChain(timestamp string) *BlockChain {
 	return blockChain
 }
 
-func (blockChain *BlockChain) AppendNewBlock(data []byte, timestamp string) *BlockChain {
+func (blockChain *BlockChain) AppendNewBlock(data []Transaction, timestamp string, proof int) *BlockChain {
 	blockLength := len(blockChain.Blocks)
 
 	if blockLength < 1 {
@@ -28,7 +28,7 @@ func (blockChain *BlockChain) AppendNewBlock(data []byte, timestamp string) *Blo
 	}
 
 	currentBlock := blockChain.Blocks[blockLength-1]
-	newBlock := NewBlock(blockLength, data, timestamp, currentBlock.hash)
+	newBlock := NewBlock(blockLength, data, timestamp, currentBlock.hash, proof)
 
 	blockChain.Blocks = append(blockChain.Blocks, *newBlock)
 
@@ -37,7 +37,7 @@ func (blockChain *BlockChain) AppendNewBlock(data []byte, timestamp string) *Blo
 
 func (blockChain *BlockChain) PreMining(number int) *BlockChain {
 	for i := 1; i < number; i++ {
-		blockChain = blockChain.AppendNewBlock(nil, time.Now().String())
+		blockChain = blockChain.AppendNewBlock(nil, time.Now().String(), 0)
 	}
 
 	return blockChain
@@ -46,6 +46,6 @@ func (blockChain *BlockChain) PreMining(number int) *BlockChain {
 func (blockChain *BlockChain) Inspect() {
 	blocks := blockChain.Blocks
 	for _, block := range blocks {
-		fmt.Printf("{%v,\n %v}\n", block.blockData.PreviousHash, block.hash)
+		fmt.Printf("{%v,\n %v}\n", block.BlockData.PreviousHash, block.hash)
 	}
 }

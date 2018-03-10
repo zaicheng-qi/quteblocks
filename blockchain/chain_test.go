@@ -18,7 +18,7 @@ func Test_createGenesisBlock(t *testing.T) {
 		{
 			name: "Should create genesis block",
 			args: args{timestamp: "2009-11-10 23:00:00 +0000 UTC m=+0.000000001"},
-			want: NewBlock(0, nil, "2009-11-10 23:00:00 +0000 UTC m=+0.000000001", ""),
+			want: NewBlock(0, nil, "2009-11-10 23:00:00 +0000 UTC m=+0.000000001", "0000000000000000000000000000000000000000000000000000000000000000", 0),
 		},
 	}
 	for _, tt := range tests {
@@ -64,8 +64,9 @@ func TestBlockChain_AppendNewBlock(t *testing.T) {
 		Blocks []Block
 	}
 	type args struct {
-		data      []byte
+		data      []Transaction
 		timestamp string
+		proof     int
 	}
 	genesisBlock := *createGenesisBlock("2009-11-10 23:00:00 +0000 UTC m=+0.000000001")
 	timestamp := "2009-11-10 23:10:00 +0000 UTC m=+0.000000001"
@@ -82,9 +83,10 @@ func TestBlockChain_AppendNewBlock(t *testing.T) {
 			args: args{
 				data:      nil,
 				timestamp: timestamp,
+				proof:     1,
 			},
 			want: &BlockChain{
-				Blocks: []Block{genesisBlock, *NewBlock(1, nil, timestamp, genesisBlock.hash)},
+				Blocks: []Block{genesisBlock, *NewBlock(1, nil, timestamp, genesisBlock.hash, 1)},
 			},
 		},
 	}
@@ -93,7 +95,7 @@ func TestBlockChain_AppendNewBlock(t *testing.T) {
 			blockChain := &BlockChain{
 				Blocks: tt.fields.Blocks,
 			}
-			if got := blockChain.AppendNewBlock(tt.args.data, tt.args.timestamp); !reflect.DeepEqual(got, tt.want) {
+			if got := blockChain.AppendNewBlock(tt.args.data, tt.args.timestamp, tt.args.proof); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("BlockChain.AppendNewBlock() = %v, want %v", got, tt.want)
 			}
 		})
@@ -113,7 +115,7 @@ func TestBlockChain_PreMining(t *testing.T) {
 		args   args
 		want   *BlockChain
 	}{
-	// TODO: Add test cases.
+		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

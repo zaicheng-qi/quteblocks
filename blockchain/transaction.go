@@ -5,8 +5,8 @@ import (
 )
 
 type Transaction struct {
-	Sender   string `json:"sender" binding:"required"`
-	Receiver string `json:"receiver" binding:"required"`
+	Sender   string `json:"from" binding:"required"`
+	Receiver string `json:"to" binding:"required"`
 	Amount   uint32 `json:"amount" binding:"required"`
 }
 

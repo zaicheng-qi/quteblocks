@@ -9,8 +9,8 @@ import (
 
 func main() {
 	blockChain := blockchain.NewBlockChain(time.Now().String())
-	blockChain.PreMining(10)
 	blockChain.Inspect()
 
+	miner := miner.NewMiner(blockChain)
 	miner.Run()
 }
