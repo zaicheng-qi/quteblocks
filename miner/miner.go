@@ -1,9 +1,14 @@
 package miner
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/vmlinz/quteblocks/blockchain"
 )
+
+const MINER_ADDR = "0000000000000000000000000000000000000000000000000000000000000001"
+const NETWORK_ADDR = "0000000000000000000000000000000000000000000000000000000000000000"
 
 type Miner struct {
 	blockChain   *blockchain.BlockChain
@@ -12,13 +17,11 @@ type Miner struct {
 	transactions []blockchain.Transaction
 }
 
-const MinerAddr = "0000000000000000000000000000000000000000000000000000000000000001"
-
 func NewMiner(blockChain *blockchain.BlockChain) *Miner {
 	m := new(Miner)
 	m.blockChain = blockChain
 	m.router = m.setupRouter()
-	m.minerAddr = MinerAddr
+	m.minerAddr = MINER_ADDR
 	m.transactions = []blockchain.Transaction{}
 
 	return m
@@ -46,9 +49,19 @@ func (m *Miner) setupRouter() *gin.Engine {
 	})
 
 	router.GET("mine", func(c *gin.Context) {
+		// get last proof
 		blockChainLength := len(m.blockChain.Blocks)
 		lastBlock := m.blockChain.Blocks[blockChainLength-1]
-		lastProof := lastBlock.blockData
+		lastProof := lastBlock.BlockData.Proof
+
+		// doing POW
+		proof := proofOfWork(lastProof)
+		// receive rewarded coins by adding a new transaction from network to miner
+		m.transactions = append(m.transactions, blockchain.Transaction{Sender: NETWORK_ADDR, Receiver: m.minerAddr, Amount: 1})
+
+		// append new mined block to blockchain
+		m.blockChain.AppendNewBlock(m.transactions, time.Now().String(), proof)
+		m.transactions = []blockchain.Transaction{}
 	})
 
 	return router
