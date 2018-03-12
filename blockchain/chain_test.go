@@ -18,7 +18,7 @@ func Test_createGenesisBlock(t *testing.T) {
 		{
 			name: "Should create genesis block",
 			args: args{timestamp: "2009-11-10 23:00:00 +0000 UTC m=+0.000000001"},
-			want: NewBlock(0, nil, "2009-11-10 23:00:00 +0000 UTC m=+0.000000001", "0000000000000000000000000000000000000000000000000000000000000000", 0),
+			want: NewBlock(0, nil, "2009-11-10 23:00:00 +0000 UTC m=+0.000000001", "0000000000000000000000000000000000000000000000000000000000000000", 1),
 		},
 	}
 	for _, tt := range tests {

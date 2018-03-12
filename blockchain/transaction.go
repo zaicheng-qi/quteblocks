@@ -1,6 +1,7 @@
 package blockchain
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -11,5 +12,15 @@ type Transaction struct {
 }
 
 func (t *Transaction) Inspect() {
-	fmt.Printf("%v", t)
+	fmt.Printf("%s", string(t.Marshal()))
+}
+
+func (t *Transaction) Marshal() []byte {
+	txJSON, err := json.Marshal(*t)
+
+	if err == nil {
+		return txJSON
+	}
+
+	return []byte("{}")
 }
