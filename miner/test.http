@@ -1,0 +1,12 @@
+# mine
+GET http://localhost:8080/mine HTTP/1.1
+
+# transaction
+POST http://localhost:8080/transaction HTTP/1.1
+content-type: application/json
+
+{
+    "from": "0000000000000000000000000000000000000000000000000000000000000001",
+    "to": "0000000000000000000000000000000000000000000000000000000000000002",
+    "amount": 0.1
+}

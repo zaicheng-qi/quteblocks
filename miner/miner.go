@@ -44,7 +44,7 @@ func (m *Miner) setupRouter() *gin.Engine {
 		if c.Bind(&tx) == nil {
 			tx.Inspect()
 			m.transactions = append(m.transactions, tx)
-			c.JSON(200, gin.H{"status": "ok"})
+			c.JSON(200, m.transactions)
 		}
 	})
 
@@ -54,14 +54,17 @@ func (m *Miner) setupRouter() *gin.Engine {
 		lastBlock := m.blockChain.Blocks[blockChainLength-1]
 		lastProof := lastBlock.BlockData.Proof
 
-		// doing POW
+		// doing stupid POW
 		proof := proofOfWork(lastProof)
 		// receive rewarded coins by adding a new transaction from network to miner
 		m.transactions = append(m.transactions, blockchain.Transaction{Sender: NETWORK_ADDR, Receiver: m.minerAddr, Amount: 1})
 
 		// append new mined block to blockchain
 		m.blockChain.AppendNewBlock(m.transactions, time.Now().String(), proof)
+		// only one block pool for now
 		m.transactions = []blockchain.Transaction{}
+
+		c.JSON(200, m.blockChain)
 	})
 
 	return router

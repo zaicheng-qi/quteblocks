@@ -10,7 +10,7 @@ type BlockChain struct {
 }
 
 func createGenesisBlock(timestamp string) *Block {
-	return NewBlock(0, nil, timestamp, "0000000000000000000000000000000000000000000000000000000000000000", 0)
+	return NewBlock(0, nil, timestamp, "0000000000000000000000000000000000000000000000000000000000000000", 1)
 }
 
 func NewBlockChain(timestamp string) *BlockChain {
