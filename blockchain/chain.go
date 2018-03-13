@@ -6,7 +6,7 @@ import (
 )
 
 type BlockChain struct {
-	Blocks []Block
+	Blocks []Block `json:"blocks"`
 }
 
 func createGenesisBlock(timestamp string) *Block {
@@ -28,7 +28,7 @@ func (blockChain *BlockChain) AppendNewBlock(data []Transaction, timestamp strin
 	}
 
 	currentBlock := blockChain.Blocks[blockLength-1]
-	newBlock := NewBlock(blockLength, data, timestamp, currentBlock.hash, proof)
+	newBlock := NewBlock(blockLength, data, timestamp, currentBlock.Hash, proof)
 
 	blockChain.Blocks = append(blockChain.Blocks, *newBlock)
 
@@ -46,6 +46,6 @@ func (blockChain *BlockChain) PreMining(number int) *BlockChain {
 func (blockChain *BlockChain) Inspect() {
 	blocks := blockChain.Blocks
 	for _, block := range blocks {
-		fmt.Printf("{%v,\n %v}\n", block.BlockData.PreviousHash, block.hash)
+		fmt.Printf("{%v,\n %v}\n", block.BlockData.PreviousHash, block.Hash)
 	}
 }

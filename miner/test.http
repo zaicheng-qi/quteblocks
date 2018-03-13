@@ -1,5 +1,9 @@
 # mine
+# mine new blocks
 GET http://localhost:8080/mine HTTP/1.1
+
+# get current blocks
+GET http://localhost:8080/blocks HTTP/1.1
 
 # transaction
 POST http://localhost:8080/transaction HTTP/1.1

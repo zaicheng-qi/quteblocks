@@ -67,6 +67,10 @@ func (m *Miner) setupRouter() *gin.Engine {
 		c.JSON(200, m.blockChain)
 	})
 
+	router.GET("blocks", func(c *gin.Context) {
+		c.JSON(200, m.blockChain)
+	})
+
 	return router
 }
 

@@ -13,8 +13,8 @@ type BlockData struct {
 }
 
 type Block struct {
-	BlockData *BlockData
-	hash      string
+	BlockData *BlockData `json:"block_data"`
+	Hash      string     `json:"hash"`
 }
 
 func (b BlockData) hashSum() string {
@@ -38,7 +38,7 @@ func NewBlock(index int, data []Transaction, timestamp string, previousHash stri
 
 	block := new(Block)
 	block.BlockData = blockData
-	block.hash = blockData.hashSum()
+	block.Hash = blockData.hashSum()
 
 	return block
 }
