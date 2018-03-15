@@ -86,7 +86,7 @@ func TestBlockChain_AppendNewBlock(t *testing.T) {
 				proof:     1,
 			},
 			want: &BlockChain{
-				Blocks: []Block{genesisBlock, *NewBlock(1, nil, timestamp, genesisBlock.hash, 1)},
+				Blocks: []Block{genesisBlock, *NewBlock(1, nil, timestamp, genesisBlock.Hash, 1)},
 			},
 		},
 	}

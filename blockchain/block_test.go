@@ -76,7 +76,7 @@ func TestNewBlock(t *testing.T) {
 					PreviousHash: "",
 					Proof:        1,
 				},
-				hash: "2a7859c78a8ea33b299fb71eafd40762ba17ff01560e210f84a15f1175c302d0",
+				Hash: "2a7859c78a8ea33b299fb71eafd40762ba17ff01560e210f84a15f1175c302d0",
 			},
 		},
 	}
